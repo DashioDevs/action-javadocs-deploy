@@ -1,4 +1,4 @@
-# 📘 Deploy Javadoc to GitHub Pages
+# 📘 Introduction
 
 This GitHub Action automates the deployment of Javadoc documentation to GitHub Pages. It builds your Java project, generates Javadoc, and publishes it to a specified branch, typically `gh-pages`.
 
