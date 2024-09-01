@@ -68,7 +68,7 @@ runs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ inputs.GITHUB_TOKEN }}
-        publish_branch: "${{ inputs.BRANCH }}-docs"
+        publish_branch: "${{ inputs.BRANCH }}"
         publish_dir: ${{ inputs.DOC_DIRECTORY }}
         force_orphan: ${{ inputs.CLEANUP_BRANCH }}
       # Publish the generated Javadoc to a GitHub Pages branch
