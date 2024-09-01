@@ -1,0 +1,75 @@
+name: Deploy Javadoc to GitHub Pages
+description: "Automate the publishing of Javadoc documentation to GitHub Pages using a GitHub Action."
+branding:
+  icon: "server"
+  color: "gray-dark"
+
+inputs:
+  GITHUB_TOKEN:
+    description: "The GitHub token used for repository access and authentication."
+    required: true
+
+  CLEANUP_BRANCH:
+    description: "Whether to clean up old branches. Set to 'true' to delete the old branch before publishing. Defaults to 'false'."
+    required: false
+    default: "false"
+
+  BRANCH:
+    description: "The name of the branch where the Javadoc documentation will be published. Defaults to 'gh-pages'."
+    required: false
+    default: "gh-pages"
+
+  JAVA_VERSION:
+    description: "The version of Java that your project is using (e.g., 17)."
+    required: true
+    default: "17"
+
+  JAVA_DISTRIBUTION:
+    description: "The JDK distribution to use (e.g., 'adopt', 'zulu'). Defaults to 'adopt'."
+    required: false
+    default: "adopt"
+
+  SKIP_TESTS:
+    description: "Whether to skip tests during the build process. Set to 'true' to skip tests, 'false' otherwise."
+    required: false
+    default: "false"
+
+  DOC_DIRECTORY:
+    description: "The directory where the Javadoc documentation is generated. Defaults to 'target/reports/apidocs'."
+    required: false
+    default: "target/reports/apidocs"
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: "Check out the repository"
+      uses: actions/checkout@v4
+      # Check out the code from the repository so it can be used in the workflow
+
+    - name: "Set up JDK ${{ inputs.JAVA_VERSION }} ${{ inputs.JAVA_DISTRIBUTION }}"
+      uses: actions/setup-java@v4
+      with:
+        distribution: ${{ inputs.JAVA_DISTRIBUTION }}
+        java-version: ${{ inputs.JAVA_VERSION }}
+      # Set up the Java Development Kit (JDK) based on specified version and distribution
+
+    - name: "Build with Maven (skip tests: ${{ inputs.SKIP_TESTS }})"
+      shell: bash
+      run: mvn clean install -Dmaven.test.skip=${{ inputs.SKIP_TESTS }} --no-transfer-progress
+      # Build the project using Maven, with an option to skip tests if specified
+
+    - name: "Generate Aggregated Javadocs"
+      shell: bash
+      run: mvn javadoc:aggregate --no-transfer-progress
+      # Generate aggregated Javadoc documentation from the project
+
+    - name: "Publish Javadoc to branch ${{ inputs.BRANCH }}"
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ inputs.GITHUB_TOKEN }}
+        publish_branch: "${{ inputs.BRANCH }}-docs"
+        publish_dir: ${{ inputs.DOC_DIRECTORY }}
+        force_orphan: ${{ inputs.CLEANUP_BRANCH }}
+      # Publish the generated Javadoc to a GitHub Pages branch
+      # 'force_orphan: true' will create a new orphan branch or replace the existing one if CLEANUP_BRANCH is set to true
