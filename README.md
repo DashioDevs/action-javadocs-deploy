@@ -79,7 +79,7 @@ jobs:
           SKIP_TESTS: 'false'
           DOC_DIRECTORY: 'target/reports/apidocs'
           BRANCH: 'gh-pages'
-          CLEANUP_BRANCH: 'false'
+          BRANCH_CLEANUP: 'false'
 ```
 
 ### Example with Branch Cleanup
@@ -111,5 +111,5 @@ jobs:
           SKIP_TESTS: 'false'
           DOC_DIRECTORY: 'target/reports/apidocs'
           BRANCH: 'gh-pages'
-          CLEANUP_BRANCH: 'true'
+          BRANCH_CLEANUP: 'true'
 ```
