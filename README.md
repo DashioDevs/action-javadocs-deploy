@@ -16,15 +16,15 @@ This GitHub Action automates the deployment of Javadoc documentation to GitHub P
 - **Description**: GitHub token used for repository access and authentication.
 - **Required**: Yes
 
-### `CLEANUP_BRANCH`
-- **Description**: Whether to clean up old branches. Set to `'true'` to delete the old branch before publishing. Defaults to `'false'`.
-- **Required**: No
-- **Default**: `'false'`
-
 ### `BRANCH`
 - **Description**: The name of the branch where the Javadoc documentation will be published. Defaults to `'gh-pages'`.
 - **Required**: No
 - **Default**: `'gh-pages'`
+
+### `BRANCH_CLEANUP`
+- **Description**: Whether to clean up old branches. Set to `'true'` to delete the old branch before publishing. Defaults to `'false'`.
+- **Required**: No
+- **Default**: `'false'`
 
 ### `JAVA_VERSION`
 - **Description**: The version of Java your project is using (e.g., 17).

@@ -9,15 +9,15 @@ inputs:
     description: "The GitHub token used for repository access and authentication."
     required: true
 
-  CLEANUP_BRANCH:
-    description: "Whether to clean up old branches. Set to 'true' to delete the old branch before publishing. Defaults to 'false'."
-    required: false
-    default: "false"
-
   BRANCH:
     description: "The name of the branch where the Javadoc documentation will be published. Defaults to 'gh-pages'."
     required: false
     default: "gh-pages"
+
+  BRANCH_CLEANUP:
+    description: "Whether to clean up old branches. Set to 'true' to delete the old branch before publishing. Defaults to 'false'."
+    required: false
+    default: "false"
 
   JAVA_VERSION:
     description: "The version of Java that your project is using (e.g., 17)."
@@ -70,6 +70,6 @@ runs:
         github_token: ${{ inputs.GITHUB_TOKEN }}
         publish_branch: "${{ inputs.BRANCH }}"
         publish_dir: ${{ inputs.DOC_DIRECTORY }}
-        force_orphan: ${{ inputs.CLEANUP_BRANCH }}
+        force_orphan: ${{ inputs.BRANCH_CLEANUP }}
       # Publish the generated Javadoc to a GitHub Pages branch
-      # 'force_orphan: true' will create a new orphan branch or replace the existing one if CLEANUP_BRANCH is set to true
+      # 'force_orphan: true' will create a new orphan branch or replace the existing one if BRANCH_CLEANUP is set to true
